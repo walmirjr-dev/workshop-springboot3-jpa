@@ -40,7 +40,7 @@ public class Order implements Serializable{
 	@JoinColumn(name = "client_id")
 	private User client;
 
-	@OneToMany(mappedBy = "id.order")
+	@OneToMany(mappedBy = "id.order", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<OrderItem> items = new HashSet<>();
 
 
@@ -79,8 +79,8 @@ public class Order implements Serializable{
 	}
 
 	public void setOrderStatus(OrderStatus orderStatus) {
-		if(orderStatus != null) {
-		this.orderStatus = orderStatus.getCode();
+		if (orderStatus != null) {
+			this.orderStatus = orderStatus.getCode();
 		}
 	}
 

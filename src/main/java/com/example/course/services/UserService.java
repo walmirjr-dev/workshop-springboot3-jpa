@@ -1,12 +1,13 @@
 package com.example.course.services;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import com.example.course.dto.UserDTO;
 import com.example.course.entities.User;
 import com.example.course.repositories.UserRepository;
 import com.example.course.services.exceptions.DatabaseException;
@@ -20,17 +21,24 @@ public class UserService {
 	@Autowired
 	private UserRepository repository;
 
-	public List<User> findAll(){
-		return repository.findAll();
+	public List<UserDTO> findAll(){
+		List<User> list = repository.findAll();
+		return list.stream().map(UserDTO::new).collect(Collectors.toList());
 	}
 
-	public User findById(Long id) {
-		Optional<User> obj = repository.findById(id);
-		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
+	public UserDTO findById(Long id) {
+		User entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+		return new UserDTO(entity);
 	}
 
-	public User insert(User obj) {
-		return repository.save(obj);
+	public UserDTO insert(UserDTO dto) {
+
+		User entity = new User();
+		copyDtoToEntity(dto, entity);
+
+		entity = repository.save(entity);
+
+		return new UserDTO(entity);
 	}
 
 	public void delete(Long id) {
@@ -46,21 +54,24 @@ public class UserService {
 		}
 	}
 
-	public User update(Long id, User obj) {
+	public UserDTO update(Long id, UserDTO dto) {
 
 		try {
 			User entity = repository.getReferenceById(id);
-			updateData(entity, obj);
-			return repository.save(entity);
+			copyDtoToEntity(dto, entity);
+			entity = repository.save(entity);
+
+			return new UserDTO(entity);
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException(id);
 		}
 	}
 
-	private void updateData(User entity, User obj) {
-		entity.setName(obj.getName());
-		entity.setPhone(obj.getPhone());
-		entity.setEmail(obj.getEmail());
+	private void copyDtoToEntity (UserDTO dto, User entity) {
+		entity.setName(dto.getName());
+	    entity.setEmail(dto.getEmail());
+	    entity.setPhone(dto.getPhone());
+	    entity.setPassword(dto.getPassword());
 	}
 
 }

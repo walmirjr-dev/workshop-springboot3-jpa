@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.example.course.entities.Order;
+import com.example.course.dto.OrderDTO;
+import com.example.course.dto.OrderResponseDTO;
 import com.example.course.services.OrderService;
 
 @RestController
@@ -27,24 +28,22 @@ public class OrderResource {
 
 
 	@GetMapping
-	public ResponseEntity<List<Order>> findAll(){
-		List<Order> list = service.findAll();
+    public ResponseEntity<List<OrderResponseDTO>> findAll() {
+        List<OrderResponseDTO> list = service.findAll();
+        return ResponseEntity.ok().body(list);
+    }
 
-		return ResponseEntity.ok().body(list);
-
-	}
-
-	@GetMapping(value = "/{id}")
-	public ResponseEntity<Order> findById(@PathVariable Long id){
-		Order obj = service.findById(id);
-		return ResponseEntity.ok().body(obj);
-	}
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<OrderResponseDTO> findById(@PathVariable Long id) {
+        OrderResponseDTO dto = service.findById(id);
+        return ResponseEntity.ok().body(dto);
+    }
 
 	@PostMapping
-	public ResponseEntity<Order> insert(@RequestBody Order obj){
-		obj = service.insert(obj);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-		return ResponseEntity.created(uri).body(obj);
+	public ResponseEntity<OrderDTO> insert(@RequestBody OrderDTO dto){
+		OrderDTO newDto = service.insert(dto);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newDto.getId()).toUri();
+		return ResponseEntity.created(uri).body(newDto);
 	}
 
 	@DeleteMapping(value = "/{id}")
@@ -54,9 +53,9 @@ public class OrderResource {
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Order>update(@PathVariable Long id, @RequestBody Order obj ){
-		obj = service.update(id, obj);
-		return ResponseEntity.ok().body(obj);
+	public ResponseEntity<OrderDTO>update(@PathVariable Long id, @RequestBody OrderDTO dto ){
+		dto = service.update(id, dto);
+		return ResponseEntity.ok().body(dto);
 	}
 
 }
