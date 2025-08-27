@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.example.course.entities.Product;
+import com.example.course.dto.ProductDTO;
+import com.example.course.dto.ProductResponseDTO;
 import com.example.course.services.ProductService;
 
 @RestController
@@ -27,24 +28,22 @@ public class ProductResource {
 
 
 	@GetMapping
-	public ResponseEntity<List<Product>> findAll(){
-		List<Product> list = service.findAll();
+    public ResponseEntity<List<ProductResponseDTO>> findAll() {
+        List<ProductResponseDTO> list = service.findAll();
+        return ResponseEntity.ok().body(list);
+    }
 
-		return ResponseEntity.ok().body(list);
-
-	}
-
-	@GetMapping(value = "/{id}")
-	public ResponseEntity<Product> findById(@PathVariable Long id){
-		Product obj = service.findById(id);
-		return ResponseEntity.ok().body(obj);
-	}
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<ProductResponseDTO> findById(@PathVariable Long id) {
+        ProductResponseDTO dto = service.findById(id);
+        return ResponseEntity.ok().body(dto);
+    }
 
 	@PostMapping
-	public ResponseEntity<Product> insert(@RequestBody Product obj){
-		obj = service.insert(obj);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-		return ResponseEntity.created(uri).body(obj);
+	public ResponseEntity<ProductDTO> insert(@RequestBody ProductDTO dto){
+		ProductDTO newDto = service.insert(dto);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newDto.getId()).toUri();
+		return ResponseEntity.created(uri).body(newDto);
 	}
 
 	@DeleteMapping(value = "/{id}")
@@ -54,9 +53,9 @@ public class ProductResource {
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Product>update(@PathVariable Long id, @RequestBody Product obj ){
-		obj = service.update(id, obj);
-		return ResponseEntity.ok().body(obj);
+	public ResponseEntity<ProductDTO>update(@PathVariable Long id, @RequestBody ProductDTO dto ){
+		dto = service.update(id, dto);
+		return ResponseEntity.ok().body(dto);
 	}
 
 }

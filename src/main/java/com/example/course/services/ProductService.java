@@ -1,12 +1,14 @@
 package com.example.course.services;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import com.example.course.dto.ProductDTO;
+import com.example.course.dto.ProductResponseDTO;
 import com.example.course.entities.Category;
 import com.example.course.entities.Product;
 import com.example.course.repositories.CategoryRepository;
@@ -25,17 +27,25 @@ public class ProductService {
 	@Autowired
 	private CategoryRepository catReposiroy;
 
-	public List<Product> findAll(){
-		return repository.findAll();
-	}
+	public List<ProductResponseDTO> findAll() {
+        List<Product> list = repository.findAll();
+        return list.stream().map(ProductResponseDTO::new).collect(Collectors.toList());
+    }
 
-	public Product findById(Long id) {
-		Optional<Product> obj = repository.findById(id);
-		return obj.get();
-	}
+    public ProductResponseDTO findById(Long id) {
+        Product entity = repository.findById(id)
+                                .orElseThrow(() -> new ResourceNotFoundException(id));
+        return new ProductResponseDTO(entity);
+    }
 
-	public Product insert(Product obj) {
-		return repository.save(obj);
+	public ProductDTO insert(ProductDTO dto) {
+		Product entity = new Product();
+
+		copyDtoToEntity(dto, entity);
+
+		entity = repository.save(entity);
+
+		return new ProductDTO(entity);
 	}
 
 	public void delete(Long id) {
@@ -51,31 +61,31 @@ public class ProductService {
 		}
 	}
 
-	public Product update(Long id, Product obj) {
+	public ProductDTO update(Long id, ProductDTO dto) {
 
 		try {
-			Product entity = repository.getReferenceById(id);
-			updateData(entity, obj);
-			return repository.save(entity);
-		} catch (EntityNotFoundException e) {
-			throw new ResourceNotFoundException(id);
-		}
+	        Product entity = repository.getReferenceById(id);
+	        copyDtoToEntity(dto, entity);
+	        entity = repository.save(entity);
+
+	        return new ProductDTO(entity);
+	    } catch (EntityNotFoundException e) {
+	        throw new ResourceNotFoundException(id);
+	    }
 	}
 
-	private void updateData(Product entity, Product obj) {
-		entity.setName(obj.getName());
-		entity.setDescription(obj.getDescription());
-		entity.setPrice(obj.getPrice());
-		entity.setImgUrl(obj.getImgUrl());
+	private void copyDtoToEntity (ProductDTO dto, Product entity) {
+		entity.setName(dto.getName());
+	    entity.setDescription(dto.getDescription());
+	    entity.setPrice(dto.getPrice());
+	    entity.setImgUrl(dto.getImgUrl());
 
 		entity.getCategories().clear();
 
-		 for (Category categoryFromRequest : obj.getCategories()) {
-			 Category categoryFromDb = catReposiroy.findById(categoryFromRequest.getId())
-				 .orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada"));
-
-		        entity.getCategories().add(categoryFromDb);
-		    }
+		for (Long catID : dto.getCategoryIDs()) {
+			Category category = catReposiroy.getReferenceById(catID);
+			entity.getCategories().add(category);
+		}
 	}
 
 }
