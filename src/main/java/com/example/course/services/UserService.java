@@ -11,6 +11,7 @@ import com.example.course.dto.UserDTO;
 import com.example.course.entities.User;
 import com.example.course.repositories.UserRepository;
 import com.example.course.services.exceptions.DatabaseException;
+import com.example.course.services.exceptions.InvalidEmailException;
 import com.example.course.services.exceptions.ResourceNotFoundException;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -33,7 +34,12 @@ public class UserService {
 
 	public UserDTO insert(UserDTO dto) {
 
+		if(!isEmailValid(dto.getEmail())) {
+			throw new InvalidEmailException("Invalid email: " + dto.getEmail());
+		}
+
 		User entity = new User();
+
 		copyDtoToEntity(dto, entity);
 
 		entity = repository.save(entity);
@@ -72,6 +78,10 @@ public class UserService {
 	    entity.setEmail(dto.getEmail());
 	    entity.setPhone(dto.getPhone());
 	    entity.setPassword(dto.getPassword());
+	}
+
+	private boolean isEmailValid(String email) {
+		return email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
 	}
 
 }
