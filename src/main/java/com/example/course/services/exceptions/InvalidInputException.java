@@ -1,11 +1,10 @@
 package com.example.course.services.exceptions;
 
-public class InvalidEmailException extends RuntimeException {
+public class InvalidInputException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
-	public InvalidEmailException(String msg) {
+	public InvalidInputException(String msg) {
 		super(msg);
 	}
-
 }

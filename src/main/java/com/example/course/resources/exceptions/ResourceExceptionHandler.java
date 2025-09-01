@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.example.course.services.exceptions.DatabaseException;
-import com.example.course.services.exceptions.InvalidEmailException;
+import com.example.course.services.exceptions.InvalidInputException;
 import com.example.course.services.exceptions.ResourceNotFoundException;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,9 +32,9 @@ public class ResourceExceptionHandler {
 		return ResponseEntity.status(status).body(err);
 	}
 
-	@ExceptionHandler(InvalidEmailException.class)
-	public ResponseEntity<StandardError> email(InvalidEmailException e, HttpServletRequest request){
-		String error = "Invalid email.";
+	@ExceptionHandler(InvalidInputException.class)
+	public ResponseEntity<StandardError> invalidInput(InvalidInputException e, HttpServletRequest request){
+		String error = "Invalid input.";
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
 		return ResponseEntity.status(status).body(err);

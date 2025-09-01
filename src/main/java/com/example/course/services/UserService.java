@@ -11,7 +11,7 @@ import com.example.course.dto.UserDTO;
 import com.example.course.entities.User;
 import com.example.course.repositories.UserRepository;
 import com.example.course.services.exceptions.DatabaseException;
-import com.example.course.services.exceptions.InvalidEmailException;
+import com.example.course.services.exceptions.InvalidInputException;
 import com.example.course.services.exceptions.ResourceNotFoundException;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -34,9 +34,7 @@ public class UserService {
 
 	public UserDTO insert(UserDTO dto) {
 
-		if(!isEmailValid(dto.getEmail())) {
-			throw new InvalidEmailException("Invalid email: " + dto.getEmail());
-		}
+		validateUserData(dto);
 
 		User entity = new User();
 
@@ -62,9 +60,7 @@ public class UserService {
 
 	public UserDTO update(Long id, UserDTO dto) {
 
-		if(!isEmailValid(dto.getEmail())) {
-			throw new InvalidEmailException("Invalid email: " + dto.getEmail());
-		}
+		validateUserData(dto);
 
 		try {
 			User entity = repository.getReferenceById(id);
@@ -84,8 +80,13 @@ public class UserService {
 	    entity.setPassword(dto.getPassword());
 	}
 
-	private boolean isEmailValid(String email) {
-		return email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
-	}
+	private void validateUserData(UserDTO dto) {
+		if(!dto.getEmail().matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+			throw new InvalidInputException("Invalid email format: " + dto.getEmail());
+		}
 
+		if(!dto.getPhone().matches("^\\d{10,11}$")) {
+			throw new InvalidInputException("Invalid phone number format: " + dto.getPhone());
+		}
+	}
 }
