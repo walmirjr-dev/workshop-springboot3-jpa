@@ -62,6 +62,10 @@ public class UserService {
 
 	public UserDTO update(Long id, UserDTO dto) {
 
+		if(!isEmailValid(dto.getEmail())) {
+			throw new InvalidEmailException("Invalid email: " + dto.getEmail());
+		}
+
 		try {
 			User entity = repository.getReferenceById(id);
 			copyDtoToEntity(dto, entity);
