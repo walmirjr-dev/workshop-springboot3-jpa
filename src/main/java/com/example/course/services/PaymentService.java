@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.course.dto.PaymentDTO;
 import com.example.course.entities.Order;
@@ -16,6 +17,7 @@ import com.example.course.services.exceptions.DatabaseException;
 import com.example.course.services.exceptions.ResourceNotFoundException;
 
 import jakarta.persistence.EntityNotFoundException;
+
 
 @Service
 public class PaymentService {
@@ -36,13 +38,14 @@ public class PaymentService {
 		return new PaymentDTO(entity);
 	}
 
+	@Transactional
 	public PaymentDTO insert(PaymentDTO dto) {
 
 		Payment entity = new Payment();
-
 		copyDtoToEntity(dto, entity);
 
 		entity = repository.save(entity);
+		orderRepository.save(entity.getOrder());
 
 		return new PaymentDTO(entity);
 	}
@@ -75,7 +78,10 @@ public class PaymentService {
 	private void copyDtoToEntity (PaymentDTO dto, Payment entity) {
 		entity.setMoment(dto.getMoment());
 
-		Order order = orderRepository.getReferenceById(dto.getOrderId());
+		 Order order = orderRepository.findById(dto.getOrderId())
+                 .orElseThrow(() -> new ResourceNotFoundException(dto.getOrderId()));
+
+		 order.setPayment(entity);
 
 		entity.setOrder(order);
 	}

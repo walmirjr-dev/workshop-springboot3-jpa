@@ -89,7 +89,8 @@ public class Order implements Serializable{
 	}
 
 	public void setPayment(Payment payment) {
-		this.payment = payment;
+	    this.payment = payment;
+	    this.orderStatus = OrderStatus.PAID.getCode();
 	}
 
 	public User getClient() {
