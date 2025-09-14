@@ -38,6 +38,8 @@ Para ir além do curso, implementei as seguintes melhorias:
 ✅ **Documentação** automática da API utilizando Swagger/openAPI.
 
 ✅ **Implementação** de banco de dados relacional MySQL.
+
+
 ---
 
 Este projeto serve tanto como um portfólio prático do meu padrão de código e atenção a detalhes, quanto como uma referência de estudo, utilizei o projeto do curso como base para criar algo mais robusto e próximo dos padrões de mercado reais.
@@ -86,6 +88,8 @@ To go beyond the course, I implemented the following **enhancements**:
 ✅ **Automatic** documentation of the API using Swagger/openAPI.
 
 ✅ **MySQL** relational database implementation.
+
+
 ---
 
 This project serves both as a practical portfolio of my coding pattern and attention to details, and as a study reference, I used the course project as a base to build something more solid and closer to real market patterns.
