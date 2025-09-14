@@ -22,13 +22,21 @@ Este projeto me ajudou a aprofundar minha experiência em:
 Para ir além do curso, implementei as seguintes melhorias:
 
 ✅ **Finalização** completa das implementações nas classes de `repositories` e `resources`.
+
 ✅ **Aprimoramento** da lógica de negócio no método updateData da classe ProductService, garantindo a integridade dos dados e o tratamento de associações (como a relação entre Product e Category).
+
 ✅ **Aprimoramento** da lógica de negócio na classe Order, garantindo que sempre que um Payment for associado a um Order, esse Order terá seu OrderStatus automaticamente alterado para PAID.
+
 ✅ **Validações** de dados de entrada para email e número de telefone na entidade User utilizando regex.
+
 ✅ **Tratamento** de exceções mais aprofundado, garantindo que a API retorne o código HTTP correspondente a situação.
+
 ✅ **Testes** unitários para validação e regras de negócio
+
 ✅ **Implementação** de padrão DTO para melhor saída e entrada de dados na API.
+
 ✅ **Documentação** automática da API utilizando Swagger/openAPI.
+
 ✅ **Implementação** de banco de dados relacional MySQL.
 ---
 
@@ -62,13 +70,21 @@ This project helped me to deepen my experience in:
 To go beyond the course, I implemented the following **enhancements**:
 
 ✅ **Complete** finalization of the class implementations in `repositories` and `resources`.
+
 ✅ **Improved** business logic in the `updateData` method of the `ProductService` class, ensuring data integrity and correct handling of associations (like the relationship between `Product` and `Category`).
+
 ✅ **Improved** business logic in Order, ensuring that every time a Payment is associated with an Order, its OrderStatus is automatically updated to PAID.
+
 ✅ **Input** data validation to email and phone number in User using regex.
+
 ✅ **Better** exception handling, ensuring that the API return the right HTTP code for each situation.
+
 ✅ **Unit** tests for validation and business logic.
+
 ✅ **DTO** pattern implementation for better data input and output on the API.
+
 ✅ **Automatic** documentation of the API using Swagger/openAPI.
+
 ✅ **MySQL** relational database implementation.
 ---
 
