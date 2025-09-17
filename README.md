@@ -2,7 +2,7 @@
 
 Este repositório contém um projeto em Java com **Spring Boot 3.5.5**, desenvolvido como parte do curso de java do Nélio Alves, mais especificamente no módulo "Projeto web services com Spring boot + JPA/Hibernate" 
 
-Porém, decidi ir além do projeto e implementar muitas features e refatorações como método de estudo e melhoria, adicionando robustez, padrões mais próximos do mercado e aprimoramento da lógica de negócio.
+Porém, decidi ir além do projeto inicial, então implementei muitas features e refatorações como método de estudo e melhoria, adicionando robustez, padrões mais próximos do mercado e aprimoramento da lógica de negócio.
 
 O projeto demonstra uma compreensão sólida do padrão de arquitetura em camadas e dos conceitos básicos de Spring Boot, JPA/Hibernate e bancos de dados relacionais.
 
@@ -53,6 +53,8 @@ Fique à vontade para explorar o código e me contatar caso tenha dúvidas ou fe
 # WORKSHOP SPRINGBOOT 3 + JPA
 
 This repository contains a Java + **Spring Boot 3.5.5** project, developed as part of Nélio Alves' Java course, specifically in the "Projeto web services com Spring boot + JPA/Hibernate" module.
+
+However, I decided to go beyond the initial project, then I implemented many features and refactoring as a study and self improvement method, Adding confiability, closer market patterns, and business rules improvement.
 
 The project demonstrates a solid understanding of the layered architecture pattern and the basic concepts of Spring Boot, JPA/Hibernate, and relational databases.
 
