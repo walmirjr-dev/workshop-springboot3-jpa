@@ -2,6 +2,8 @@
 
 Este repositório contém um projeto em Java com **Spring Boot 3.5.5**, desenvolvido como parte do curso de java do Nélio Alves, mais especificamente no módulo "Projeto web services com Spring boot + JPA/Hibernate" 
 
+Porém, decidi ir além do projeto e implementar muitas features e refatorações como método de estudo e melhoria, adicionando robustez, padrões mais próximos do mercado e aprimoramento da lógica de negócio.
+
 O projeto demonstra uma compreensão sólida do padrão de arquitetura em camadas e dos conceitos básicos de Spring Boot, JPA/Hibernate e bancos de dados relacionais.
 
 ---
